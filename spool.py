@@ -50,7 +50,12 @@ def go(fun):
 
     return _fun
 
-coroutine = go
+
+def coroutine(fun):
+    def _fun(*args):
+        return go(fun)(*args)
+    return _fun
+
 coroutine.self = lambda: current_thread().__chan__ if hasattr(current_thread(), '__chan__') else None
 
 
