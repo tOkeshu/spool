@@ -1,7 +1,6 @@
 from threading import Thread, current_thread
-import multiprocessing
+from multiprocessing import Queue
 from select import select as unix_select
-from time import sleep
 
 def alive(source):
     try:
@@ -14,8 +13,8 @@ def alive(source):
 class Channel(object):
 
     def __init__(self):
-        self._in = multiprocessing.Queue()
-        self._out = multiprocessing.Queue()
+        self._in = Queue()
+        self._out = Queue()
 
     def incoroutine(self):
         return coroutine.self() is self
