@@ -35,6 +35,9 @@ class Channel(object):
         self._in.close()
         self._out.close()
 
+    def alive(self):
+        return bool(filter(alive, [self._in._reader, self._out._reader]))
+
 
 def go(fun):
     chan = Channel()
