@@ -1,23 +1,17 @@
-from collections import namedtuple
 from threading import Thread, current_thread
 from multiprocessing import Queue
 
-Coroutine = namedtuple('Coroutine', ['fun', 'args'])
-
-def coroutine(fun):
-    def replacement(*args):
-        return Coroutine(fun, args)
-    return replacement
-
-coroutine.self = lambda: current_thread().__chan__
-
-def go(spec):
-    fun, args = spec
+def go(fun):
     chan = Queue()
 
-    t = Thread(target=fun, args=args)
-    t.__setattr__('__chan__', chan)
-    t.start()
+    def _fun(*args):
+        t = Thread(target=fun, args=args)
+        t.__setattr__('__chan__', chan)
+        t.start()
+        return chan
 
-    return chan
+    return _fun
+
+coroutine = go
+coroutine.self = lambda: current_thread().__chan__ if hasattr(current_thread(), '__chan__') else None
 
