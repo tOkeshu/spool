@@ -8,9 +8,9 @@ Getting started
 
 Spool provides you 3 primitives:
 
-  - a `go` function
-  - a `coroutine` decorator
-  - a `select` function
+- a `go` function
+- a `coroutine` decorator
+- a `select` function
 
 The `go` function is used to decorate other functions in your code:
 
@@ -100,6 +100,7 @@ The `select` function allow you to listen for multiple channels and get notified
 ::
 
     from spool import coroutine, select
+    from time import sleep
 
     @coroutine
     def pulse(n):
